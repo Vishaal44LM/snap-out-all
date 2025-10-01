@@ -9,7 +9,9 @@ interface HomeProps {
 
 const Home = ({ onStartGame }: HomeProps) => {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6">
+    <div className="relative min-h-screen flex items-center justify-center p-4 sm:p-6 overflow-hidden">
+      <span aria-hidden className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-gradient-to-br from-[hsl(var(--neon-purple))] to-[hsl(var(--neon-cyan))] blur-3xl opacity-30" />
+      <span aria-hidden className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-gradient-to-br from-[hsl(var(--neon-red))] to-[hsl(var(--neon-green))] blur-3xl opacity-20" />
       <Card className="w-full max-w-2xl p-6 sm:p-8 bg-card/50 backdrop-blur-sm border-2 border-primary/30">
         <div className="text-center space-y-6 sm:space-y-8">
           <div className="space-y-3 sm:space-y-4">
@@ -33,7 +35,7 @@ const Home = ({ onStartGame }: HomeProps) => {
 
           <div className="space-y-3 sm:space-y-4">
             <h2 className="text-lg sm:text-xl text-muted-foreground">Select Difficulty</h2>
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-4">
               <Button
                 onClick={() => onStartGame("easy")}
                 className="h-16 sm:h-20 text-base sm:text-lg font-bold bg-accent/20 hover:bg-accent/40 active:bg-accent/50 border-2 border-accent text-accent-foreground hover:glow-cyan transition-all touch-manipulation"
@@ -58,6 +60,9 @@ const Home = ({ onStartGame }: HomeProps) => {
               >
                 EXPERT
               </Button>
+            </div>
+            <div className="text-sm sm:text-base text-muted-foreground">
+              <p>• Easy: longer red glow • Expert: faster with decoys</p>
             </div>
           </div>
         </div>

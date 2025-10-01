@@ -38,7 +38,7 @@ const Index = () => {
     <>
       {screen === "home" && <Home onStartGame={handleStartGame} />}
       {screen === "game" && (
-        <Game key={gameKey} difficulty={difficulty} onGameEnd={handleGameEnd} />
+        <Game key={gameKey} difficulty={difficulty} onGameEnd={handleGameEnd} onBack={handleGoHome} />
       )}
       {screen === "results" && (
         <Results

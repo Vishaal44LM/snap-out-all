@@ -1,11 +1,13 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 
 type Difficulty = "easy" | "medium" | "hard" | "expert";
 
 interface GameProps {
   difficulty: Difficulty;
   onGameEnd: (score: number, totalRed: number) => void;
+  onBack: () => void;
 }
 
 interface Light {
@@ -22,7 +24,7 @@ const difficultySettings = {
   expert: { duration: 400, interval: 600 },
 };
 
-const Game = ({ difficulty, onGameEnd }: GameProps) => {
+const Game = ({ difficulty, onGameEnd, onBack }: GameProps) => {
   const [lights, setLights] = useState<Light[]>(
     Array.from({ length: 10 }, (_, i) => ({
       id: i,
@@ -34,6 +36,7 @@ const Game = ({ difficulty, onGameEnd }: GameProps) => {
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(30);
   const [totalRedLights, setTotalRedLights] = useState(0);
+  const endedRef = useRef(false);
 
   const activateRandomLight = useCallback(() => {
     const settings = difficultySettings[difficulty];
@@ -64,22 +67,24 @@ const Game = ({ difficulty, onGameEnd }: GameProps) => {
   useEffect(() => {
     const settings = difficultySettings[difficulty];
     const lightInterval = setInterval(activateRandomLight, settings.interval);
-    
+    console.log("Light interval started with", settings);
     return () => clearInterval(lightInterval);
   }, [activateRandomLight, difficulty]);
 
-  useEffect(() => {
-    if (timeLeft <= 0) {
-      onGameEnd(score, totalRedLights);
-      return;
-    }
-
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [timeLeft, score, totalRedLights, onGameEnd]);
+useEffect(() => {
+  if (endedRef.current) return;
+  if (timeLeft <= 0) {
+    endedRef.current = true;
+    console.log("Timer ended. Final score:", score, "Total red:", totalRedLights);
+    onGameEnd(score, totalRedLights);
+    return;
+  }
+  const timeout = setTimeout(() => {
+    setTimeLeft((prev) => prev - 1);
+    console.log("Timer tick:", timeLeft - 1);
+  }, 1000);
+  return () => clearTimeout(timeout);
+}, [timeLeft, score, totalRedLights, onGameEnd]);
 
   const handleLightClick = (lightId: number) => {
     const light = lights[lightId];
@@ -102,7 +107,18 @@ const Game = ({ difficulty, onGameEnd }: GameProps) => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6">
-      <div className="w-full max-w-4xl space-y-6 sm:space-y-8">
+      <div className="w-full max-w-4xl space-y-4 sm:space-y-6">
+        <div className="flex items-center justify-between">
+          <Button
+            aria-label="Go back"
+            onClick={onBack}
+            className="h-10 sm:h-11 px-4 bg-muted/40 hover:bg-muted/60 border border-border text-foreground"
+            variant="ghost"
+          >
+            <ArrowLeft className="mr-2 h-5 w-5" /> Back
+          </Button>
+          <div className="flex-1" />
+        </div>
         <div className="flex justify-between items-center gap-3 sm:gap-4">
           <div className="bg-card/50 backdrop-blur-sm px-4 sm:px-6 py-3 sm:py-4 rounded-lg border-2 border-accent flex-1">
             <p className="text-xs sm:text-sm text-muted-foreground mb-1">SCORE</p>
@@ -138,7 +154,7 @@ const Game = ({ difficulty, onGameEnd }: GameProps) => {
           ))}
         </div>
 
-        <div className="text-center px-4">
+        <div className="text-center px-4 pb-safe">
           <p className="text-base sm:text-lg text-muted-foreground">
             Tap the <span className="text-neon-red font-bold">red lights</span> quickly!
           </p>

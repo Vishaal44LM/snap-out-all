@@ -93,4 +93,9 @@ All colors MUST be HSL.
   .bg-neon-green {
     background-color: hsl(var(--neon-green));
   }
+
+  /* Mobile safe area padding for iOS browsers */
+  .pb-safe {
+    padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+  }
 }
