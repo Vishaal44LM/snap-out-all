@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Home from "@/components/Home";
 import Game from "@/components/Game";
 import Results from "@/components/Results";
@@ -11,31 +11,34 @@ const Index = () => {
   const [difficulty, setDifficulty] = useState<Difficulty>("easy");
   const [score, setScore] = useState(0);
   const [totalRed, setTotalRed] = useState(0);
+  const [gameKey, setGameKey] = useState(0);
 
-  const handleStartGame = (selectedDifficulty: Difficulty) => {
+  const handleStartGame = useCallback((selectedDifficulty: Difficulty) => {
     setDifficulty(selectedDifficulty);
+    setGameKey(prev => prev + 1);
     setScreen("game");
-  };
+  }, []);
 
-  const handleGameEnd = (finalScore: number, finalTotalRed: number) => {
+  const handleGameEnd = useCallback((finalScore: number, finalTotalRed: number) => {
     setScore(finalScore);
     setTotalRed(finalTotalRed);
     setScreen("results");
-  };
+  }, []);
 
-  const handlePlayAgain = () => {
+  const handlePlayAgain = useCallback(() => {
+    setGameKey(prev => prev + 1);
     setScreen("game");
-  };
+  }, []);
 
-  const handleGoHome = () => {
+  const handleGoHome = useCallback(() => {
     setScreen("home");
-  };
+  }, []);
 
   return (
     <>
       {screen === "home" && <Home onStartGame={handleStartGame} />}
       {screen === "game" && (
-        <Game difficulty={difficulty} onGameEnd={handleGameEnd} />
+        <Game key={gameKey} difficulty={difficulty} onGameEnd={handleGameEnd} />
       )}
       {screen === "results" && (
         <Results

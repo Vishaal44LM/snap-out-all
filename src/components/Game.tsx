@@ -101,27 +101,28 @@ const Game = ({ difficulty, onGameEnd }: GameProps) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-4xl space-y-8">
-        <div className="flex justify-between items-center text-center">
-          <div className="bg-card/50 backdrop-blur-sm px-6 py-4 rounded-lg border-2 border-accent">
-            <p className="text-sm text-muted-foreground mb-1">SCORE</p>
-            <p className="text-4xl font-bold text-neon-cyan glow-cyan">{score}</p>
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6">
+      <div className="w-full max-w-4xl space-y-6 sm:space-y-8">
+        <div className="flex justify-between items-center gap-3 sm:gap-4">
+          <div className="bg-card/50 backdrop-blur-sm px-4 sm:px-6 py-3 sm:py-4 rounded-lg border-2 border-accent flex-1">
+            <p className="text-xs sm:text-sm text-muted-foreground mb-1">SCORE</p>
+            <p className="text-3xl sm:text-4xl font-bold text-neon-cyan glow-cyan">{score}</p>
           </div>
           
-          <div className="bg-card/50 backdrop-blur-sm px-6 py-4 rounded-lg border-2 border-primary">
-            <p className="text-sm text-muted-foreground mb-1">TIME</p>
-            <p className="text-4xl font-bold text-neon-red glow-red">{timeLeft}s</p>
+          <div className="bg-card/50 backdrop-blur-sm px-4 sm:px-6 py-3 sm:py-4 rounded-lg border-2 border-primary flex-1">
+            <p className="text-xs sm:text-sm text-muted-foreground mb-1">TIME</p>
+            <p className="text-3xl sm:text-4xl font-bold text-neon-red glow-red">{timeLeft}s</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-5 gap-4 md:gap-6">
+        <div className="grid grid-cols-5 gap-2 sm:gap-4 md:gap-6 max-w-lg mx-auto sm:max-w-full">
           {lights.map((light) => (
             <button
               key={light.id}
               onClick={() => handleLightClick(light.id)}
               className={`
-                aspect-square rounded-lg transition-all duration-200 border-2
+                aspect-square rounded-lg transition-all duration-200 border-2 touch-manipulation
+                min-h-[60px] sm:min-h-[80px]
                 ${
                   light.isActive && light.isRed
                     ? "bg-neon-red glow-red scale-110"
@@ -130,15 +131,15 @@ const Game = ({ difficulty, onGameEnd }: GameProps) => {
                     : "bg-muted/30 border-border"
                 }
                 ${light.flashSuccess ? "bg-neon-green glow-green animate-flash-success" : ""}
-                hover:scale-105 active:scale-95
+                active:scale-95
               `}
               disabled={!light.isActive}
             />
           ))}
         </div>
 
-        <div className="text-center">
-          <p className="text-lg text-muted-foreground">
+        <div className="text-center px-4">
+          <p className="text-base sm:text-lg text-muted-foreground">
             Tap the <span className="text-neon-red font-bold">red lights</span> quickly!
           </p>
         </div>
