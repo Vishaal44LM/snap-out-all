@@ -12,74 +12,113 @@ const Results = ({ score, totalRed, onPlayAgain, onGoHome }: ResultsProps) => {
   const accuracy = totalRed > 0 ? Math.round((score / totalRed) * 100) : 0;
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6">
-      <Card className="w-full max-w-2xl p-6 sm:p-8 bg-card/50 backdrop-blur-sm border-2 border-primary/30">
-        <div className="text-center space-y-6 sm:space-y-8">
-          <div className="space-y-3 sm:space-y-4">
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-neon-cyan glow-cyan">
-              GAME OVER
-            </h1>
+    <div className="relative min-h-screen flex items-center justify-center p-4 sm:p-6 overflow-hidden">
+      {/* Epic background effects */}
+      <span aria-hidden className="pointer-events-none absolute top-10 left-10 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-[hsl(var(--neon-pink))] to-[hsl(var(--neon-purple))] blur-3xl opacity-30 animate-pulse" />
+      <span aria-hidden className="pointer-events-none absolute -bottom-20 -right-20 h-[600px] w-[600px] rounded-full bg-gradient-to-br from-[hsl(var(--neon-cyan))] to-[hsl(var(--neon-green))] blur-3xl opacity-25 animate-float" />
+      
+      <div className="w-full max-w-3xl glass-card-bright p-8 sm:p-12 rounded-3xl glow-pink animate-bounce-in">
+        <div className="text-center space-y-8 sm:space-y-10">
+          {/* Epic Game Over title */}
+          <div className="space-y-4 sm:space-y-6">
+            <div className="relative inline-block">
+              <h1 className="relative text-5xl sm:text-6xl md:text-7xl font-orbitron font-black tracking-widest gradient-cosmic bg-clip-text text-transparent animate-pulse-glow">
+                GAME OVER
+              </h1>
+              <div className="absolute inset-0 blur-3xl gradient-cosmic bg-clip-text text-transparent opacity-40 -z-10">
+                GAME OVER
+              </div>
+            </div>
           </div>
 
-          <div className="space-y-4 sm:space-y-6">
-            <div className="bg-muted/50 p-6 sm:p-8 rounded-lg border-2 border-primary">
-              <p className="text-xs sm:text-sm text-muted-foreground mb-2">FINAL SCORE</p>
-              <p className="text-5xl sm:text-6xl font-bold text-neon-red glow-red">
+          {/* Score section */}
+          <div className="space-y-6 sm:space-y-8">
+            <div className="glass-card-bright p-8 sm:p-10 rounded-3xl border-3 border-primary/50 glow-red relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent" />
+              <p className="relative text-sm sm:text-base font-chakra font-bold text-primary mb-3 tracking-widest">FINAL SCORE</p>
+              <p className="relative text-7xl sm:text-8xl font-orbitron font-black text-neon-red glow-red drop-shadow-2xl">
                 {score}
               </p>
-              <p className="text-base sm:text-lg text-muted-foreground mt-2">
-                out of {totalRed} red lights
+              <p className="relative text-xl sm:text-2xl font-chakra font-medium text-muted-foreground mt-4">
+                out of <span className="text-foreground font-bold">{totalRed}</span> red lights
               </p>
             </div>
 
-            <div className="bg-muted/50 p-4 sm:p-6 rounded-lg border border-border">
-              <p className="text-xs sm:text-sm text-muted-foreground mb-2">ACCURACY</p>
-              <div className="flex items-center justify-center gap-3 sm:gap-4">
-                <div className="h-3 sm:h-4 flex-1 bg-background rounded-full overflow-hidden">
+            {/* Accuracy bar */}
+            <div className="glass-card p-6 sm:p-8 rounded-2xl border-2 border-accent/50 glow-cyan">
+              <p className="text-sm sm:text-base font-chakra font-bold text-accent mb-4 tracking-widest">ACCURACY</p>
+              <div className="flex items-center justify-center gap-4 sm:gap-6">
+                <div className="h-4 sm:h-6 flex-1 bg-muted/30 rounded-full overflow-hidden border-2 border-border/30">
                   <div
-                    className="h-full bg-gradient-to-r from-neon-red to-neon-green transition-all duration-1000"
+                    className="h-full gradient-neon transition-all duration-1000 relative"
                     style={{ width: `${accuracy}%` }}
-                  />
+                  >
+                    <div className="absolute inset-0 bg-white/20 animate-pulse" />
+                  </div>
                 </div>
-                <p className="text-2xl sm:text-3xl font-bold text-neon-cyan glow-cyan min-w-[70px] sm:min-w-[80px]">
+                <p className="text-4xl sm:text-5xl font-orbitron font-black text-neon-cyan glow-cyan min-w-[90px] sm:min-w-[110px]">
                   {accuracy}%
                 </p>
               </div>
             </div>
 
+            {/* Achievements */}
             {accuracy === 100 && (
-              <div className="bg-accent/20 p-3 sm:p-4 rounded-lg border-2 border-accent">
-                <p className="text-lg sm:text-xl font-bold text-neon-cyan animate-pulse-glow">
+              <div className="glass-card-bright p-5 sm:p-6 rounded-2xl border-3 border-accent animate-glow-pulse glow-cyan">
+                <p className="text-2xl sm:text-3xl font-orbitron font-black gradient-neon bg-clip-text text-transparent animate-pulse-glow">
                   🎯 PERFECT SCORE! 🎯
                 </p>
+                <p className="text-base sm:text-lg font-chakra text-muted-foreground mt-2">You are a LEGEND!</p>
               </div>
             )}
             
             {accuracy >= 80 && accuracy < 100 && (
-              <div className="bg-secondary/20 p-3 sm:p-4 rounded-lg border-2 border-secondary">
-                <p className="text-lg sm:text-xl font-bold text-neon-green">
+              <div className="glass-card p-4 sm:p-5 rounded-2xl border-2 border-secondary/50 glow-purple">
+                <p className="text-xl sm:text-2xl font-orbitron font-black text-neon-purple animate-pulse">
                   ⚡ EXCELLENT! ⚡
                 </p>
+                <p className="text-sm sm:text-base font-chakra text-muted-foreground mt-1">Amazing reflexes!</p>
+              </div>
+            )}
+            
+            {accuracy >= 50 && accuracy < 80 && (
+              <div className="glass-card p-4 sm:p-5 rounded-2xl border-2 border-primary/50">
+                <p className="text-xl sm:text-2xl font-orbitron font-bold text-neon-pink">
+                  💪 GOOD JOB!
+                </p>
+                <p className="text-sm sm:text-base font-chakra text-muted-foreground mt-1">Keep practicing!</p>
+              </div>
+            )}
+            
+            {accuracy < 50 && (
+              <div className="glass-card p-4 sm:p-5 rounded-2xl border-2 border-border/50">
+                <p className="text-xl sm:text-2xl font-orbitron font-bold text-muted-foreground">
+                  🎮 NICE TRY!
+                </p>
+                <p className="text-sm sm:text-base font-chakra text-muted-foreground mt-1">You'll get better!</p>
               </div>
             )}
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-            <Button
+          {/* Action buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-5">
+            <button
               onClick={onPlayAgain}
-              className="flex-1 h-12 sm:h-14 text-base sm:text-lg font-bold bg-primary/20 hover:bg-primary/40 active:bg-primary/50 border-2 border-primary text-primary-foreground hover:glow-red transition-all touch-manipulation"
+              className="group relative flex-1 h-16 sm:h-18 text-lg sm:text-xl font-orbitron font-black overflow-hidden rounded-2xl border-3 border-primary bg-gradient-to-br from-primary/40 to-primary/20 hover:from-primary/60 hover:to-primary/30 transition-all hover:scale-105 active:scale-95 touch-manipulation glow-red"
             >
-              PLAY AGAIN
-            </Button>
-            <Button
+              <span className="relative z-10 text-primary-foreground drop-shadow-lg">PLAY AGAIN</span>
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            </button>
+            <button
               onClick={onGoHome}
-              className="flex-1 h-12 sm:h-14 text-base sm:text-lg font-bold bg-accent/20 hover:bg-accent/40 active:bg-accent/50 border-2 border-accent text-accent-foreground hover:glow-cyan transition-all touch-manipulation"
+              className="group relative flex-1 h-16 sm:h-18 text-lg sm:text-xl font-orbitron font-black overflow-hidden rounded-2xl border-3 border-accent bg-gradient-to-br from-accent/40 to-accent/20 hover:from-accent/60 hover:to-accent/30 transition-all hover:scale-105 active:scale-95 touch-manipulation glow-cyan"
             >
-              GO HOME
-            </Button>
+              <span className="relative z-10 text-accent-foreground drop-shadow-lg">GO HOME</span>
+              <div className="absolute inset-0 bg-gradient-to-t from-accent/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            </button>
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };

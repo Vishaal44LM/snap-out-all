@@ -8,44 +8,52 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 240 20% 8%;
-    --foreground: 180 100% 95%;
+    --background: 250 40% 4%;
+    --foreground: 0 0% 100%;
 
-    --card: 240 15% 12%;
-    --card-foreground: 180 100% 95%;
+    --card: 250 35% 8%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 240 15% 12%;
-    --popover-foreground: 180 100% 95%;
+    --popover: 250 35% 8%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 0 100% 60%;
+    --primary: 340 100% 55%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 280 100% 65%;
+    --secondary: 280 100% 60%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 10% 20%;
-    --muted-foreground: 180 20% 60%;
+    --muted: 250 30% 15%;
+    --muted-foreground: 240 10% 70%;
 
-    --accent: 170 100% 50%;
-    --accent-foreground: 240 20% 8%;
+    --accent: 190 100% 50%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 100% 50%;
+    --destructive: 0 85% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 20% 20%;
-    --input: 240 20% 20%;
-    --ring: 0 100% 60%;
+    --border: 250 30% 18%;
+    --input: 250 30% 18%;
+    --ring: 340 100% 55%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
 
-    --neon-red: 0 100% 60%;
-    --neon-green: 140 100% 50%;
-    --neon-cyan: 180 100% 50%;
+    --neon-red: 0 100% 65%;
+    --neon-green: 140 100% 55%;
+    --neon-cyan: 180 100% 55%;
     --neon-purple: 280 100% 65%;
+    --neon-pink: 340 100% 65%;
+    --neon-yellow: 50 100% 60%;
     
-    --glow-red: 0 0 20px rgba(255, 50, 50, 0.8), 0 0 40px rgba(255, 50, 50, 0.4);
-    --glow-green: 0 0 20px rgba(50, 255, 150, 0.8), 0 0 40px rgba(50, 255, 150, 0.4);
-    --glow-cyan: 0 0 20px rgba(50, 255, 255, 0.8), 0 0 40px rgba(50, 255, 255, 0.4);
+    --glow-red: 0 0 30px rgba(255, 60, 100, 0.9), 0 0 60px rgba(255, 60, 100, 0.5), 0 0 100px rgba(255, 60, 100, 0.3);
+    --glow-green: 0 0 30px rgba(50, 255, 150, 0.9), 0 0 60px rgba(50, 255, 150, 0.5), 0 0 100px rgba(50, 255, 150, 0.3);
+    --glow-cyan: 0 0 30px rgba(50, 255, 255, 0.9), 0 0 60px rgba(50, 255, 255, 0.5), 0 0 100px rgba(50, 255, 255, 0.3);
+    --glow-purple: 0 0 30px rgba(200, 100, 255, 0.9), 0 0 60px rgba(200, 100, 255, 0.5), 0 0 100px rgba(200, 100, 255, 0.3);
+    --glow-pink: 0 0 30px rgba(255, 100, 200, 0.9), 0 0 60px rgba(255, 100, 200, 0.5), 0 0 100px rgba(255, 100, 200, 0.3);
+    
+    --gradient-cosmic: linear-gradient(135deg, hsl(340 100% 55%) 0%, hsl(280 100% 60%) 25%, hsl(220 100% 55%) 50%, hsl(190 100% 50%) 75%, hsl(340 100% 55%) 100%);
+    --gradient-neon: linear-gradient(to right, hsl(340 100% 65%), hsl(280 100% 65%), hsl(190 100% 55%));
+    --gradient-dark: radial-gradient(ellipse at top, hsl(250 40% 8%) 0%, hsl(250 40% 4%) 100%);
   }
 }
 
@@ -56,8 +64,30 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    background: linear-gradient(135deg, hsl(240 20% 8%) 0%, hsl(260 25% 10%) 100%);
+    background: radial-gradient(ellipse at top left, hsl(340 100% 15%) 0%, hsl(250 40% 4%) 30%, hsl(250 40% 4%) 70%, hsl(190 100% 15%) 100%);
     min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 20%, hsl(340 100% 55% / 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, hsl(190 100% 50% / 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, hsl(280 100% 60% / 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  #root {
+    position: relative;
+    z-index: 1;
   }
 }
 
@@ -74,6 +104,14 @@ All colors MUST be HSL.
     box-shadow: var(--glow-cyan);
   }
   
+  .glow-purple {
+    box-shadow: var(--glow-purple);
+  }
+  
+  .glow-pink {
+    box-shadow: var(--glow-pink);
+  }
+  
   .text-neon-red {
     color: hsl(var(--neon-red));
   }
@@ -86,6 +124,14 @@ All colors MUST be HSL.
     color: hsl(var(--neon-cyan));
   }
   
+  .text-neon-purple {
+    color: hsl(var(--neon-purple));
+  }
+  
+  .text-neon-pink {
+    color: hsl(var(--neon-pink));
+  }
+  
   .bg-neon-red {
     background-color: hsl(var(--neon-red));
   }
@@ -93,9 +139,45 @@ All colors MUST be HSL.
   .bg-neon-green {
     background-color: hsl(var(--neon-green));
   }
+  
+  .gradient-cosmic {
+    background: var(--gradient-cosmic);
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease infinite;
+  }
+  
+  .gradient-neon {
+    background: var(--gradient-neon);
+  }
+  
+  .glass-card {
+    background: hsl(var(--card) / 0.4);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid hsl(var(--border) / 0.3);
+  }
+  
+  .glass-card-bright {
+    background: linear-gradient(135deg, hsl(var(--card) / 0.6) 0%, hsl(var(--card) / 0.3) 100%);
+    backdrop-filter: blur(30px) saturate(200%);
+    border: 2px solid hsl(var(--primary) / 0.3);
+  }
 
   /* Mobile safe area padding for iOS browsers */
   .pb-safe {
     padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+  }
+  
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
   }
 }

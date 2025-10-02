@@ -88,18 +88,53 @@ export default {
           "0%, 100%": {
             opacity: "1",
             transform: "scale(1)",
+            filter: "brightness(1)",
           },
           "50%": {
-            opacity: "0.8",
-            transform: "scale(1.05)",
+            opacity: "0.85",
+            transform: "scale(1.03)",
+            filter: "brightness(1.2)",
           },
         },
         "flash-success": {
           "0%, 100%": {
             opacity: "0",
+            transform: "scale(1)",
           },
           "50%": {
             opacity: "1",
+            transform: "scale(1.1)",
+          },
+        },
+        "bounce-in": {
+          "0%": {
+            transform: "scale(0.8)",
+            opacity: "0",
+          },
+          "50%": {
+            transform: "scale(1.05)",
+          },
+          "100%": {
+            transform: "scale(1)",
+            opacity: "1",
+          },
+        },
+        "slide-up": {
+          "0%": {
+            transform: "translateY(100px)",
+            opacity: "0",
+          },
+          "100%": {
+            transform: "translateY(0)",
+            opacity: "1",
+          },
+        },
+        "glow-pulse": {
+          "0%, 100%": {
+            boxShadow: "0 0 20px rgba(255, 60, 100, 0.5), 0 0 40px rgba(255, 60, 100, 0.3)",
+          },
+          "50%": {
+            boxShadow: "0 0 40px rgba(255, 60, 100, 0.8), 0 0 80px rgba(255, 60, 100, 0.5)",
           },
         },
       },
@@ -108,6 +143,9 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         "flash-success": "flash-success 0.3s ease-in-out",
+        "bounce-in": "bounce-in 0.5s ease-out",
+        "slide-up": "slide-up 0.5s ease-out",
+        "glow-pulse": "glow-pulse 2s ease-in-out infinite",
       },
     },
   },

@@ -119,57 +119,67 @@ useEffect(() => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6">
-      <div className="w-full max-w-4xl space-y-4 sm:space-y-6">
+    <div className="relative min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 overflow-hidden">
+      {/* Background effects */}
+      <span aria-hidden className="pointer-events-none absolute top-0 right-0 h-96 w-96 rounded-full bg-gradient-to-br from-[hsl(var(--neon-red))] to-[hsl(var(--neon-pink))] blur-3xl opacity-20 animate-pulse" />
+      <span aria-hidden className="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-gradient-to-br from-[hsl(var(--neon-cyan))] to-[hsl(var(--neon-purple))] blur-3xl opacity-20" />
+      
+      <div className="w-full max-w-4xl space-y-6 sm:space-y-8 animate-bounce-in">
+        {/* Header with back button */}
         <div className="flex items-center justify-between">
-          <Button
+          <button
             aria-label="Go back"
             onClick={onBack}
-            className="h-10 sm:h-11 px-4 bg-muted/40 hover:bg-muted/60 border border-border text-foreground"
-            variant="ghost"
+            className="glass-card px-4 sm:px-5 py-2 sm:py-3 rounded-xl border-2 border-border hover:border-accent text-foreground hover:text-accent transition-all hover:scale-105 active:scale-95 font-orbitron font-bold flex items-center gap-2 glow-cyan"
           >
-            <ArrowLeft className="mr-2 h-5 w-5" /> Back
-          </Button>
+            <ArrowLeft className="h-5 w-5" /> BACK
+          </button>
           <div className="flex-1" />
         </div>
-        <div className="flex justify-between items-center gap-3 sm:gap-4">
-          <div className="bg-card/50 backdrop-blur-sm px-4 sm:px-6 py-3 sm:py-4 rounded-lg border-2 border-accent flex-1">
-            <p className="text-xs sm:text-sm text-muted-foreground mb-1">SCORE</p>
-            <p className="text-3xl sm:text-4xl font-bold text-neon-cyan glow-cyan">{score}</p>
+
+        {/* Stats display */}
+        <div className="flex justify-between items-center gap-4 sm:gap-6">
+          <div className="glass-card-bright px-6 sm:px-8 py-4 sm:py-6 rounded-2xl border-2 border-accent/50 flex-1 glow-cyan">
+            <p className="text-xs sm:text-sm font-chakra font-bold text-accent mb-2 tracking-widest">SCORE</p>
+            <p className="text-4xl sm:text-5xl font-orbitron font-black text-neon-cyan glow-cyan">{score}</p>
           </div>
           
-          <div className="bg-card/50 backdrop-blur-sm px-4 sm:px-6 py-3 sm:py-4 rounded-lg border-2 border-primary flex-1">
-            <p className="text-xs sm:text-sm text-muted-foreground mb-1">TIME</p>
-            <p className="text-3xl sm:text-4xl font-bold text-neon-red glow-red">{timeLeft}s</p>
+          <div className="glass-card-bright px-6 sm:px-8 py-4 sm:py-6 rounded-2xl border-2 border-primary/50 flex-1 glow-red">
+            <p className="text-xs sm:text-sm font-chakra font-bold text-primary mb-2 tracking-widest">TIME</p>
+            <p className="text-4xl sm:text-5xl font-orbitron font-black text-neon-red glow-red">{timeLeft}s</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-5 gap-2 sm:gap-4 md:gap-6 max-w-lg mx-auto sm:max-w-full">
-          {lights.map((light) => (
-            <button
-              key={light.id}
-              onClick={() => handleLightClick(light.id)}
-              className={`
-                aspect-square rounded-lg transition-all duration-200 border-2 touch-manipulation
-                min-h-[60px] sm:min-h-[80px]
-                ${
-                  light.isActive && light.isRed
-                    ? "bg-neon-red glow-red scale-110"
-                    : light.isActive && !light.isRed
-                    ? "bg-secondary/50 border-secondary"
-                    : "bg-muted/30 border-border"
-                }
-                ${light.flashSuccess ? "bg-neon-green glow-green animate-flash-success" : ""}
-                active:scale-95
-              `}
-              disabled={!light.isActive}
-            />
-          ))}
+        {/* Game grid */}
+        <div className="glass-card p-6 sm:p-8 rounded-3xl border-2 border-border/50">
+          <div className="grid grid-cols-5 gap-3 sm:gap-4 md:gap-6 max-w-lg mx-auto sm:max-w-full">
+            {lights.map((light) => (
+              <button
+                key={light.id}
+                onClick={() => handleLightClick(light.id)}
+                className={`
+                  aspect-square rounded-2xl transition-all duration-200 border-3 touch-manipulation
+                  min-h-[60px] sm:min-h-[80px]
+                  ${
+                    light.isActive && light.isRed
+                      ? "bg-neon-red glow-red scale-110 border-neon-red shadow-2xl"
+                      : light.isActive && !light.isRed
+                      ? "bg-secondary/60 border-secondary glow-purple scale-105"
+                      : "bg-muted/20 border-border/30 hover:border-border/50"
+                  }
+                  ${light.flashSuccess ? "bg-neon-green glow-green animate-flash-success border-neon-green" : ""}
+                  active:scale-95
+                `}
+                disabled={!light.isActive}
+              />
+            ))}
+          </div>
         </div>
 
+        {/* Instructions */}
         <div className="text-center px-4 pb-safe">
-          <p className="text-base sm:text-lg text-muted-foreground">
-            Tap the <span className="text-neon-red font-bold">red lights</span> quickly!
+          <p className="text-lg sm:text-xl font-chakra font-bold text-foreground">
+            Destroy the <span className="text-neon-red glow-red px-2 py-1 bg-neon-red/20 rounded font-black">RED LIGHTS</span> fast!
           </p>
         </div>
       </div>
