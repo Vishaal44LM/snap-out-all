@@ -37,8 +37,11 @@ const Game = ({ difficulty, onGameEnd, onBack }: GameProps) => {
   const [timeLeft, setTimeLeft] = useState(30);
   const [totalRedLights, setTotalRedLights] = useState(0);
   const endedRef = useRef(false);
+  const timerIntervalRef = useRef<number | null>(null);
+  const endTimeRef = useRef<number | null>(null);
 
   const activateRandomLight = useCallback(() => {
+    if (endedRef.current) return;
     const settings = difficultySettings[difficulty];
     const randomIndex = Math.floor(Math.random() * 10);
     const isRed = difficulty === "expert" ? Math.random() > 0.3 : true;
@@ -72,18 +75,28 @@ const Game = ({ difficulty, onGameEnd, onBack }: GameProps) => {
   }, [activateRandomLight, difficulty]);
 
 useEffect(() => {
-  if (endedRef.current) return;
-  if (timeLeft <= 0) {
+  // initialize timer on mount
+  endedRef.current = false;
+  setTimeLeft(30);
+  const end = Date.now() + 30_000;
+  endTimeRef.current = end;
+  timerIntervalRef.current = window.setInterval(() => {
+    const remaining = Math.max(0, Math.ceil((end - Date.now()) / 1000));
+    setTimeLeft(remaining);
+  }, 250);
+  return () => {
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+      timerIntervalRef.current = null;
+    }
+  };
+}, []);
+
+useEffect(() => {
+  if (!endedRef.current && timeLeft <= 0) {
     endedRef.current = true;
-    console.log("Timer ended. Final score:", score, "Total red:", totalRedLights);
     onGameEnd(score, totalRedLights);
-    return;
   }
-  const timeout = setTimeout(() => {
-    setTimeLeft((prev) => prev - 1);
-    console.log("Timer tick:", timeLeft - 1);
-  }, 1000);
-  return () => clearTimeout(timeout);
 }, [timeLeft, score, totalRedLights, onGameEnd]);
 
   const handleLightClick = (lightId: number) => {
